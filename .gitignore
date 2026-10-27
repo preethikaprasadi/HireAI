@@ -1,0 +1,66 @@
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+.python-version
+
+# Virtual environments
+venv/
+.venv/
+ENV/
+
+# Test and coverage output
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local uploads and generated files
+backend/uploads/
+
+# IDE and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+
+# AI model weights and checkpoints
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.onnx
+
+# Generated AI datasets and evaluation outputs
+ai/datasets/processed/
+ai/models/
+models/
+
+# Jupyter temporary files
+.ipynb_checkpoints/
+
+# Test documents containing sample personal data
+backend/test_resume.pdf
+
+# Local uploaded resumes
+backend/uploads/
+
+
+# Backend virtual environments and installed dependencies
+backend/venv/
+backend/.venv/
+
+# Backend AI models and adapters
+backend/models/
+
+# Local databases and logs
+*.sqlite
+*.sqlite3
+*.db
+*.log

@@ -1,0 +1,26 @@
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyd
+
+# Virtual environments
+venv/
+.venv/
+ENV/
+
+# Pytest and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local uploads
+uploads/
+
+# Logs
+*.log
