@@ -40,7 +40,6 @@ Thumbs.db
 # Generated AI datasets and evaluation outputs
 ai/datasets/processed/
 ai/models/
-models/
 
 # Jupyter temporary files
 .ipynb_checkpoints/
