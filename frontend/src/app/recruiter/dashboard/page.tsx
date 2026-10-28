@@ -40,13 +40,25 @@ export default function RecruiterDashboard() {
   >([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [greeting] = useState(() => {
-    const hour = new Date().getHours();
+  const [greeting, setGreeting] = useState("Welcome back");
 
-    if (hour < 12) return "Good morning";
-    if (hour < 17) return "Good afternoon";
-    return "Good evening";
-  });
+  useEffect(() => {
+    const updateGreeting = () => {
+      const hour = new Date().getHours();
+
+      if (hour < 12) {
+        setGreeting("Good morning");
+      } else if (hour < 17) {
+        setGreeting("Good afternoon");
+      } else {
+        setGreeting("Good evening");
+      }
+    };
+
+    const timer = window.setTimeout(updateGreeting, 0);
+
+    return () => window.clearTimeout(timer);
+  }, []);
 
 useEffect(() => {
   let cancelled = false;

@@ -563,7 +563,7 @@ export default function CandidateApplicationsPage() {
 
                       {/* Six-status pipeline */}
                       <div className="mt-7 overflow-x-auto pb-1">
-                        <div className="flex min-w-[620px] items-start">
+                        <div className="flex min-w-155 items-start">
 
                           {APPLICATION_STATUSES.map(
                             (

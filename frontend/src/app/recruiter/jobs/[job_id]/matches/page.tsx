@@ -44,14 +44,11 @@ const STATUS_OPTIONS: ApplicationStatus[] = [
   "HIRED",
 ];
 
-const MATCH_FILTERS = [
-  "ALL",
-  "STRONG_MATCH",
-  "POTENTIAL_MATCH",
-  "LOW_MATCH",
-] as const;
-
-type MatchFilter = (typeof MATCH_FILTERS)[number];
+type MatchFilter =
+  | "ALL"
+  | "STRONG_MATCH"
+  | "POTENTIAL_MATCH"
+  | "LOW_MATCH";
 
 type SortOption =
   | "SCORE_DESC"

@@ -61,6 +61,26 @@ export default function EditJobPage() {
     closing_date: "",
   });
 
+  function toDateTimeLocal(value: string) {
+    const date = new Date(value);
+
+    const year = date.getFullYear();
+    const month = String(
+      date.getMonth() + 1,
+    ).padStart(2, "0");
+    const day = String(
+      date.getDate(),
+    ).padStart(2, "0");
+    const hours = String(
+      date.getHours(),
+    ).padStart(2, "0");
+    const minutes = String(
+      date.getMinutes(),
+    ).padStart(2, "0");
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
+
   useEffect(() => {
     async function loadJob() {
       const token = getAccessToken();
@@ -174,26 +194,6 @@ export default function EditJobPage() {
 
     loadDepartments();
   }, [job?.company_id, job?.department]);
-
-  function toDateTimeLocal(value: string) {
-    const date = new Date(value);
-
-    const year = date.getFullYear();
-    const month = String(
-      date.getMonth() + 1,
-    ).padStart(2, "0");
-    const day = String(
-      date.getDate(),
-    ).padStart(2, "0");
-    const hours = String(
-      date.getHours(),
-    ).padStart(2, "0");
-    const minutes = String(
-      date.getMinutes(),
-    ).padStart(2, "0");
-
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
-  }
 
   function updateField(
     field: keyof typeof form,
@@ -348,8 +348,7 @@ export default function EditJobPage() {
           <div className="mt-3 h-4 w-96 rounded bg-slate-200" />
 
           <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_320px]">
-            <div className="h-[600px] rounded-2xl bg-slate-200" />
-
+            <div className="h-150 rounded-2xl bg-slate-200" />
             <div className="h-80 rounded-2xl bg-slate-200" />
           </div>
         </div>

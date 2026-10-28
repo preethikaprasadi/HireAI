@@ -77,8 +77,6 @@ export async function apiRequest<T>(
   return response.json() as Promise<T>;
 }
 
-import type { User } from "../types/auth";
-
 export interface Company {
   id: string;
   created_by: string;

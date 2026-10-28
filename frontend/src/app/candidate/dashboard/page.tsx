@@ -12,7 +12,7 @@ import {
   UserRound,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-
+import { useRouter } from "next/navigation";
 import AppShell from "@/components/layout/AppShell";
 import {
   Application,
@@ -104,6 +104,7 @@ export default function CandidateDashboardPage() {
     useState("");
 
   const [retryCount, setRetryCount] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     let cancelled = false;
@@ -114,7 +115,7 @@ export default function CandidateDashboardPage() {
       const token = getAccessToken();
 
       if (!token) {
-        window.location.href = "/login";
+        router.push("/login");
         return;
       }
 
@@ -200,7 +201,7 @@ export default function CandidateDashboardPage() {
     return () => {
       cancelled = true;
     };
-  }, [retryCount]);
+  }, [retryCount, router]);
 
   const recentApplications =
     applications.slice(0, 5);
@@ -210,24 +211,6 @@ export default function CandidateDashboardPage() {
       (application) =>
         application.status === "APPLIED" ||
         application.status === "PENDING",
-    ).length;
-
-  const appliedCount =
-  applications.filter(
-    (application) =>
-      application.status === "APPLIED",
-  ).length;
-
-  const reviewedCount =
-    applications.filter(
-      (application) =>
-        application.status === "REVIEWED",
-    ).length;
-
-  const rejectedCount =
-    applications.filter(
-      (application) =>
-        application.status === "REJECTED",
     ).length;
 
   const shortlistedCount =
@@ -710,33 +693,35 @@ export default function CandidateDashboardPage() {
 
         )}
 
-          <section
-            role="alert"
-            className="rounded-2xl border border-red-200 bg-white p-8 text-center shadow-sm sm:p-12"
-          >
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-red-600">
-              <RefreshCw size={22} />
-            </div>
-
-            <h2 className="mt-4 text-lg font-semibold text-slate-900">
-              Couldn&apos;t load your dashboard
-            </h2>
-
-            <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-500">
-              {error}
-            </p>
-
-            <button
-              type="button"
-              onClick={() =>
-                setRetryCount((count) => count + 1)
-              }
-              className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
+          {error && !loading && (
+            <section
+              role="alert"
+              className="rounded-2xl border border-red-200 bg-white p-8 text-center shadow-sm sm:p-12"
             >
-              <RefreshCw size={16} />
-              Try again
-            </button>
-          </section>
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-red-600">
+                <RefreshCw size={22} />
+              </div>
+
+              <h2 className="mt-4 text-lg font-semibold text-slate-900">
+                Couldn&apos;t load your dashboard
+              </h2>
+
+              <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-500">
+                {error}
+              </p>
+
+              <button
+                type="button"
+                onClick={() =>
+                  setRetryCount((count) => count + 1)
+                }
+                className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
+              >
+                <RefreshCw size={16} />
+                Try again
+              </button>
+            </section>
+          )}
 
 
 

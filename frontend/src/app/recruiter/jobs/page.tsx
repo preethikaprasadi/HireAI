@@ -612,7 +612,7 @@ function JobRow({
         </div>
 
         {/* Actions */}
-        <div className="flex flex-col gap-3 xl:min-w-[620px] xl:items-end">
+        <div className="flex flex-col gap-3 xl:min-w-155 xl:items-end">
           <div className="flex flex-wrap items-center gap-2">
             <Link
               href={`/recruiter/jobs/${job.id}`}
