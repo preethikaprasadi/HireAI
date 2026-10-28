@@ -15,6 +15,8 @@ from app.schemas.company_member import (
     CompanyMemberCreate,
     CompanyMemberResponse,
 )
+from app.models.department import Department
+from app.models.department_member import DepartmentMember
 
 router = APIRouter(
     prefix="/api/v1/companies/{company_id}/members",
@@ -168,6 +170,7 @@ def authorize_recruiter(
     }
 
 
+
 @router.delete(
     "/{member_id}",
     status_code=status.HTTP_204_NO_CONTENT,
@@ -198,6 +201,20 @@ def remove_company_member(
             status_code=400,
             detail="The company owner cannot be removed from the company.",
         )
+
+    department_ids = select(Department.id).where(
+        Department.company_id == company_id,
+    )
+
+    assignments = db.scalars(
+        select(DepartmentMember).where(
+            DepartmentMember.department_id.in_(department_ids),
+            DepartmentMember.user_id == member.user_id,
+        )
+    ).all()
+
+    for assignment in assignments:
+        db.delete(assignment)
 
     db.delete(member)
     db.commit()

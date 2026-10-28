@@ -115,7 +115,7 @@ def validate_department(
 
     if department is None:
         raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
             detail="The selected department does not belong to this company.",
         )
 
@@ -282,7 +282,7 @@ def create_job(
 
             if not name:
                 raise HTTPException(
-                    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                    status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
                     detail="Skill name cannot be empty.",
                 )
 
@@ -303,7 +303,7 @@ def create_job(
                 db.flush()
         else:
             raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
                 detail="Each skill must have a skill_id or a name.",
             )
 
@@ -483,6 +483,7 @@ def get_job(
 # Recruiter / Owner — Update Job
 # =========================================================
 
+
 @router.put(
     "/{job_id}",
     response_model=JobResponse,
@@ -507,19 +508,35 @@ def update_job(
 
     update_data = data.model_dump(exclude_unset=True)
 
+    # Keep department_id and department synchronized.
     if "department_id" in update_data:
         department = validate_department(
             department_id=update_data["department_id"],
             company_id=job.company_id,
             db=db,
         )
+
         job.department_id = department.id if department else None
         job.department = department.name if department else None
+
         update_data.pop("department_id")
         update_data.pop("department", None)
 
-    # Company ownership and creator identity are immutable
-    # through this endpoint.
+    elif "department" in update_data:
+        requested_department = update_data.pop("department")
+
+        # Department names must not independently change the
+        # department associated with the job.
+        if requested_department != job.department:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
+                detail=(
+                    "To change a job's department, provide "
+                    "department_id instead of department."
+                ),
+            )
+
+    # Company ownership and creator identity are immutable.
     protected_fields = {
         "id",
         "company_id",
@@ -527,14 +544,20 @@ def update_job(
         "created_at",
         "updated_at",
         "published_at",
+        "department",
+        "department_id",
     }
 
     for field, value in update_data.items():
         if field not in protected_fields:
             setattr(job, field, value)
 
-    db.commit()
-    db.refresh(job)
+    try:
+        db.commit()
+        db.refresh(job)
+    except Exception:
+        db.rollback()
+        raise
 
     return job
 

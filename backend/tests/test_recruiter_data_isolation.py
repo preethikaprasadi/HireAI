@@ -115,3 +115,61 @@ def test_company_owner_can_access_company_job():
     db = RecruiterAccessDB()
 
     assert can_access_job(job, recruiter, membership, db) is True
+
+def test_department_assignee_can_access_assigned_job():
+    recruiter_id = uuid4()
+    department_id = uuid4()
+    job = make_job(
+        created_by=uuid4(),
+        department_id=department_id,
+    )
+    membership = SimpleNamespace(
+        company_id=job.company_id,
+        user_id=recruiter_id,
+        role="RECRUITER",
+    )
+    assignment = SimpleNamespace(
+        department_id=department_id,
+        user_id=recruiter_id,
+    )
+    recruiter = SimpleNamespace(
+        id=recruiter_id,
+        role="RECRUITER",
+    )
+    db = RecruiterAccessDB(
+        department_assignment=assignment,
+    )
+
+    assert can_access_job(
+        job,
+        recruiter,
+        membership,
+        db,
+    ) is True
+
+
+def test_recruiter_cannot_access_job_without_company_membership():
+    recruiter_id = uuid4()
+    job = make_job(created_by=uuid4())
+    application = SimpleNamespace(
+        id=uuid4(),
+        job_id=job.id,
+    )
+    recruiter = SimpleNamespace(
+        id=recruiter_id,
+        role="RECRUITER",
+    )
+    db = RecruiterAccessDB(
+        application=application,
+        job=job,
+        membership=None,
+    )
+
+    with pytest.raises(HTTPException) as exc:
+        get_application_with_company_access(
+            application.id,
+            recruiter,
+            db,
+        )
+
+    assert exc.value.status_code == 404
