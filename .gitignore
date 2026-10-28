@@ -64,3 +64,10 @@ backend/models/
 *.sqlite3
 *.db
 *.log
+
+# Local database backups
+backups/
+
+
+# Local backup copies
+backend/alembic/env.py.backup
