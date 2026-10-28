@@ -30,7 +30,6 @@ def get_resume_analyzer() -> ResumeAnalyzer:
         _resume_analyzer = ResumeAnalyzer()
 
     return _resume_analyzer
-from app.schemas.resume_analysis import ResumeAnalysisResponse
 
 router = APIRouter(
     prefix="/api/v1/candidates/resumes",

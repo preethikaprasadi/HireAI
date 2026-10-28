@@ -3,11 +3,6 @@ import os
 import re
 from typing import Any
 
-import torch
-from peft import PeftModel
-from transformers import AutoModelForCausalLM, AutoTokenizer
-
-
 BASE_MODEL_NAME = "Qwen/Qwen3-0.6B"
 
 # Configure the adapter path through an environment variable if needed.
@@ -126,15 +121,20 @@ EXPERIENCE_SECTION_PATTERNS = [
 class ResumeAnalyzer:
 
     def __init__(self) -> None:
+        # Load heavy AI dependencies only when analysis is requested.
+        import torch
+        from peft import PeftModel
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+
+        self.torch = torch
+
         self.device = (
             "cuda"
             if torch.cuda.is_available()
             else "cpu"
         )
 
-        print(
-            f"Loading HireAI AI model on {self.device}..."
-        )
+        print(f"Loading HireAI AI model on {self.device}...")
 
         self.tokenizer = AutoTokenizer.from_pretrained(
             BASE_MODEL_NAME
@@ -157,9 +157,7 @@ class ResumeAnalyzer:
         self.model.to(self.device)
         self.model.eval()
 
-        print(
-            "HireAI AI model loaded successfully."
-        )
+        print("HireAI AI model loaded successfully.")
 
     def _build_prompt(
         self,
@@ -709,17 +707,18 @@ class ResumeAnalyzer:
 
         return combined
 
-
-    @torch.inference_mode()
     def analyze(
         self,
         resume_text: str,
     ) -> dict[str, Any]:
 
-        if not resume_text.strip():
-            raise ValueError(
-                "Resume text is empty."
-            )
+        with self.torch.inference_mode():
+            return self._analyze_resume(resume_text)
+
+    def _analyze_resume(
+        self,
+        resume_text: str,
+    ) -> dict[str, Any]:
 
         # ---------------------------------------------------------
         # Build prompt.
