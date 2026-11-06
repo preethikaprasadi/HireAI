@@ -2,37 +2,37 @@
 
 HireAI is a full-stack recruitment management platform designed to simplify and improve the hiring process using AI-powered resume analysis and candidate-job matching. It helps recruiters manage job openings, review applications, analyze candidate profiles, and identify suitable candidates more efficiently.
 
-## 🚀 Key Features
+## Key Features
 
-### 👤 Authentication & Role-Based Access
+### Authentication & Role-Based Access
 - Secure user authentication and authorization.
 - Role-based access for candidates, recruiters, and company owners.
 - Company-based membership and access management.
 
-### 📄 Resume Management & AI Analysis
+### Resume Management & AI Analysis
 - Upload and manage candidate resumes.
 - Extract structured information from resumes.
 - Analyze candidate skills, experience, and professional background.
 
-### 🤖 AI-Powered Candidate Matching
+### AI-Powered Candidate Matching
 - Match candidates with job requirements.
 - Evaluate candidates using skill, experience, and role matching.
 - Use semantic similarity to assess relevance between candidate profiles and job descriptions.
 - Generate overall candidate match scores to support recruitment decisions.
 
-### 💼 Job & Application Management
+### Job & Application Management
 - Create and manage job vacancies.
 - Define required and preferred skills.
 - Track applications and candidate progress.
 - Review candidate profiles and matching results.
 
-### 🏢 Company & Recruiter Management
+### Company & Recruiter Management
 - Manage company information and settings.
 - Add and manage recruiter memberships.
 - Organize departments and recruiter assignments.
 - Apply owner-specific administrative permissions.
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 | Category | Technologies |
 |---|---|
@@ -46,7 +46,7 @@ HireAI is a full-stack recruitment management platform designed to simplify and 
 | Frontend Deployment | Vercel |
 | Backend Deployment | Render |
 
-## 🏗️ Project Architecture
+## Project Architecture
 
 ```text
 HireAI/
@@ -70,7 +70,7 @@ HireAI/
 └── README.md
 ```
 
-## ⚙️ Local Setup
+## Local Setup
 
 ### Prerequisites
 - Python
@@ -148,7 +148,7 @@ Open the application:
 http://localhost:3000
 ```
 
-## 🌐 Deployment
+## Deployment
 
 HireAI is deployed using:
 
@@ -158,22 +158,23 @@ HireAI is deployed using:
 
 The frontend communicates with the deployed FastAPI backend through the configured API URL.
 
-## 🎯 Project Objective
+## Project Objective
 
 The goal of HireAI is to make recruitment more efficient by combining traditional recruitment management features with AI-powered resume analysis and candidate matching.
 
 The platform demonstrates full-stack software development, REST API development, database management, AI integration, and cloud deployment.
 
-## 👩‍💻 Developer
+## Developer
 
 **Preethika Prasadi**  
-Software Engineering Graduate | Full-Stack Developer
+Applied AI Engineer | Software Engineering Graduate | Full-Stack Developer
 
 - GitHub: [preethikaprasadi](https://github.com/preethikaprasadi)
 
 ---
 
 ⭐ If you find this project interesting, feel free to explore the repository!
+
 HireAI\backend
 .\venv\Scripts\Activate.ps1
 uvicorn app.main:app --reload
